@@ -31,7 +31,7 @@ const App = () => {
   }
 
   useEffect(LoadCountryData, []);
-  console.log(countries);
+  //console.log(countries);
 
   const refineResults = (results, searchTarget) => {
     if (searchTarget === '') {
