@@ -18,11 +18,9 @@ const App = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(`submitted ${event.target}`);
   }
   
   const handleInputChange = (event) => {
-    console.log(event.target.value);
     setSearchTarget(event.target.value);
     refineResults(countries, searchTarget);
   }
@@ -38,19 +36,21 @@ const App = () => {
 
   const LoadWeatherData = () => {
     console.log(`weather data hook`);
+    // Query the OpenWeatherMap for geolocation data of chosen country's capital city.
     axios
       .get(`http://api.openweathermap.org/geo/1.0/direct?q=${results[0].capital},${results[0].cca2}&limit=5&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
       .then(response => {
-        console.log(`latitude: ${response.data[0].lat}`);
-        console.log(`longitude: ${response.data[0].lon}`);
+        //console.log(`latitude: ${response.data[0].lat}`);
+        //console.log(`longitude: ${response.data[0].lon}`);
         setLatitude(response.data[0].lat);
         setLongitude(response.data[0].lon);
       })
+    // Query the OpenWeatherMap for weather data using geolocation data from above.
     axios
       .get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
       .then(response => {
-        console.log(response.data);
-        console.log(response.data.weather);
+        //console.log(response.data);
+        //console.log(response.data.weather);
         setWeatherCondition(
           {
             temperature: response.data.main.temp,

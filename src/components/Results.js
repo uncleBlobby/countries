@@ -37,10 +37,7 @@ const Results = ( {results, chosenCountry, setChosenCountry, listenToButton, loa
 
 
     const showChosenCountry = (country, results) => {
-        console.log(`clicked ${country}`);
-        console.log(results);
         const chosenCountry = results.filter(result => result.name === country);
-        console.log(`chosen country in component: ${chosenCountry[0].name}`)
         setChosenCountry(chosenCountry[0]);
         listenToButton(chosenCountry[0]);
 
@@ -66,9 +63,6 @@ const Results = ( {results, chosenCountry, setChosenCountry, listenToButton, loa
         )
     } if (results.length === 1) {
         setChosenCountry(results[0]);
-        //loadWeatherData();
-        //console.log(country);
-        //console.log(country.flags.png)
         return (
             <div>
                 <CountryData country={chosenCountry}/>
