@@ -10,6 +10,8 @@ const App = () => {
   const [countries, setCountries] = useState([]);
   const [results, setResults] = useState(countries);
 
+  const [chosenCountry, setChosenCountry] = useState(null);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`submitted ${event.target}`);
@@ -31,7 +33,6 @@ const App = () => {
   }
 
   useEffect(LoadCountryData, []);
-  //console.log(countries);
 
   const refineResults = (results, searchTarget) => {
     if (searchTarget === '') {
@@ -39,7 +40,12 @@ const App = () => {
     }
     setResults(results.filter(country => country.name.toLowerCase().includes(searchTarget.toLowerCase())));
   }
-  
+
+  const listenToButton = (country) => {
+    console.log(`heard button click from App`)
+    console.log(`heard country: ${country.name}`)
+    setResults([country]);
+  }
 
   return (
     <div className="App">
@@ -49,7 +55,12 @@ const App = () => {
         onChange={handleInputChange}  
      />
     </form>
-    <Results results={results} />
+    <Results 
+      results={results} 
+      chosenCountry={chosenCountry} 
+      setChosenCountry={setChosenCountry}
+      listenToButton={listenToButton}
+      />
     </div>
   );
 }
