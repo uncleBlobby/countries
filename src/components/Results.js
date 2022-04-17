@@ -33,7 +33,7 @@ const CountryData = ( {country} ) => {
     )
 }
 
-const Results = ( {results, chosenCountry, setChosenCountry, listenToButton } ) => {
+const Results = ( {results, chosenCountry, setChosenCountry, listenToButton, loadWeatherData } ) => {
 
 
     const showChosenCountry = (country, results) => {
@@ -66,6 +66,7 @@ const Results = ( {results, chosenCountry, setChosenCountry, listenToButton } ) 
         )
     } if (results.length === 1) {
         setChosenCountry(results[0]);
+        //loadWeatherData();
         //console.log(country);
         //console.log(country.flags.png)
         return (

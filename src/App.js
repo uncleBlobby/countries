@@ -12,6 +12,10 @@ const App = () => {
 
   const [chosenCountry, setChosenCountry] = useState(null);
 
+  const [weatherCondition, setWeatherCondition] = useState({});
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(`submitted ${event.target}`);
@@ -24,11 +28,38 @@ const App = () => {
   }
 
   const LoadCountryData = () => {
-    console.log('hook');
+    console.log('country data hook');
     axios
       .get('https://restcountries.com/v2/all')
       .then(response => {
         setCountries(response.data);
+      })
+  }
+
+  const LoadWeatherData = () => {
+    console.log(`weather data hook`);
+    axios
+      .get(`http://api.openweathermap.org/geo/1.0/direct?q=${results[0].capital},${results[0].cca2}&limit=5&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
+      .then(response => {
+        console.log(`latitude: ${response.data[0].lat}`);
+        console.log(`longitude: ${response.data[0].lon}`);
+        setLatitude(response.data[0].lat);
+        setLongitude(response.data[0].lon);
+      })
+    axios
+      .get(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.REACT_APP_WEATHER_API_KEY}`)
+      .then(response => {
+        console.log(response.data);
+        console.log(response.data.weather);
+        setWeatherCondition(
+          {
+            temperature: response.data.main.temp,
+            humidity: response.data.main.humidity,
+            description: response.data.weather[0].description,
+            windSpeed: response.data.wind.speed,
+            windDirection: response.data.wind.deg,
+          }
+        );
       })
   }
 
@@ -47,6 +78,17 @@ const App = () => {
     setResults([country]);
   }
 
+  /*
+    BROKE WEATHER FUNCTION - NEED TO FIX
+    ERROR 429 -- TOO MANY REQUESTS
+    FIX: IMPLEMENT BUTTON TO COLLECT WEATHER DATA ON DEMAND
+  
+
+  if (results.length === 1) {
+    LoadWeatherData();
+  }
+  */
+
   return (
     <div className="App">
     <form onSubmit={handleSubmit}>
@@ -60,7 +102,14 @@ const App = () => {
       chosenCountry={chosenCountry} 
       setChosenCountry={setChosenCountry}
       listenToButton={listenToButton}
+      loadWeatherData={LoadWeatherData}
       />
+    <button onClick={() => LoadWeatherData()}>Get Weather Data</button>
+    <h2>Weather:</h2>
+    <p>Current Conditions: {weatherCondition.description}</p>
+    <p>Temperature: {weatherCondition.temperature}</p>
+    <p>Humidity: {weatherCondition.humidity}</p>
+    <p>Wind Speed: {weatherCondition.windSpeed}</p>
     </div>
   );
 }
