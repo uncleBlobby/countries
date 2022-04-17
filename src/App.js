@@ -1,23 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react';
 
-function App() {
+
+const App = () => {
+
+  const [searchTarget, setSearchTarget] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(`submitted ${event.target}`);
+  }
+  
+  const handleInputChange = (event) => {
+    console.log(event.target.value);
+    setSearchTarget(event.target.value);
+  }
+  
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <form onSubmit={handleSubmit}>
+      search countries:
+      <input
+        onChange={handleInputChange}  
+     />
+    </form>
     </div>
   );
 }
