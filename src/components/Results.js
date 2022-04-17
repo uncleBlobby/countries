@@ -1,5 +1,17 @@
 import React from 'react';
 
+const showChosenCountry = (country) => {
+    console.log(`clicked`);
+}
+
+const CountryData = (country) => {
+    return (
+        <div>
+
+        </div>
+    )
+}
+
 const Results = ( {results} ) => {
     if (results.length === 0) {
         return (
@@ -19,13 +31,14 @@ const Results = ( {results} ) => {
         return (
             <div>
                 Results: {results.length}
-                {results.map(country => <p key={country.name}>{country.name}</p>)}
+                {results.map(country => <p key={country.name}>{country.name}<button onClick={()=> showChosenCountry()}>show</button></p>)}
+                
             </div>
         )
     } else {
         const country = results[0];
-        console.log(country);
-        console.log(country.flags.png)
+        //console.log(country);
+        //console.log(country.flags.png)
         return (
             <div>
                 <h1>{country.name}</h1>
